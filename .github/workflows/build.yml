@@ -1,0 +1,40 @@
+name: Build LegionCore
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: ./scripts/setup-deps-linux.sh
+      - name: Build
+        run: |
+          chmod +x scripts/build.sh
+          INSTALL_DIR="$GITHUB_WORKSPACE/install" ./scripts/build.sh
+      - name: Upload binaries
+        uses: actions/upload-artifact@v4
+        with:
+          name: legioncore-linux
+          path: install/bin
+
+  build-macos:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: ./scripts/setup-deps-macos.sh
+      - name: Build
+        run: |
+          chmod +x scripts/build.sh
+          INSTALL_DIR="$GITHUB_WORKSPACE/install" ./scripts/build.sh
+      - name: Upload binaries
+        uses: actions/upload-artifact@v4
+        with:
+          name: legioncore-macos
+          path: install/bin
