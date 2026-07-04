@@ -66,6 +66,12 @@ if [[ "$OS" == "Darwin" ]]; then
         BOOST_ROOT_DIR="$(brew --prefix boost@1.85 2>/dev/null || true)"
         [[ -n "$OPENSSL_ROOT" ]] && CMAKE_ARGS+=(-DOPENSSL_ROOT_DIR="$OPENSSL_ROOT")
         [[ -n "$BOOST_ROOT_DIR" ]] && CMAKE_ARGS+=(-DBOOST_ROOT="$BOOST_ROOT_DIR")
+        READLINE_ROOT="$(brew --prefix readline 2>/dev/null || true)"
+        if [[ -n "$READLINE_ROOT" ]]; then
+            # readline is keg-only; without this CMake finds the system libedit,
+            # which lacks rl_abort/rl_done/rl_event_hook
+            CMAKE_ARGS+=(-DREADLINE_INCLUDE_DIR="$READLINE_ROOT/include" -DREADLINE_LIBRARY="$READLINE_ROOT/lib/libreadline.dylib")
+        fi
         if [[ -n "$MYSQL_ROOT" ]]; then
             # mysql-client is keg-only; expose mysql_config so FindMySQL.cmake can derive paths
             export PATH="$MYSQL_ROOT/bin:$PATH"
