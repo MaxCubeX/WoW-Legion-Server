@@ -1,17 +1,23 @@
 diff -ruN a/dep/CascLib/src/libtomcrypt/src/headers/tomcrypt_custom.h b/dep/CascLib/src/libtomcrypt/src/headers/tomcrypt_custom.h
 --- a/dep/CascLib/src/libtomcrypt/src/headers/tomcrypt_custom.h	2026-07-04 12:44:54.980655463 +0000
-+++ b/dep/CascLib/src/libtomcrypt/src/headers/tomcrypt_custom.h	2026-07-04 12:45:07.444656057 +0000
-@@ -19,6 +19,14 @@
++++ b/dep/CascLib/src/libtomcrypt/src/headers/tomcrypt_custom.h	2026-07-04 12:48:04.928664520 +0000
+@@ -19,6 +19,20 @@
  #define USE_LTM
  #define LTM_DESC
  
 +/* explicit prototypes: some libc headers define memset/memcpy as macros,
 +   which triggers LTC_NO_PROTOTYPES and would leave these undeclared */
 +#include <stddef.h>
++#ifdef __cplusplus
++extern "C" {
++#endif
 +void * LibTomMalloc(size_t n);
 +void * LibTomRealloc(void *p, size_t n);
 +void * LibTomCalloc(size_t n, size_t s);
 +void LibTomFree(void *p);
++#ifdef __cplusplus
++}
++#endif
 +
  /* macros for various libc functions you can change for embedded targets */
  #ifndef XMALLOC
