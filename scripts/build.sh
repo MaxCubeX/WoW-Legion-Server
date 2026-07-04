@@ -51,7 +51,9 @@ if [[ "$OS" == "Darwin" ]]; then
     if command -v brew >/dev/null 2>&1; then
         OPENSSL_ROOT="$(brew --prefix openssl@3 2>/dev/null || true)"
         MYSQL_ROOT="$(brew --prefix mysql-client 2>/dev/null || true)"
+        BOOST_ROOT_DIR="$(brew --prefix boost@1.85 2>/dev/null || true)"
         [[ -n "$OPENSSL_ROOT" ]] && CMAKE_ARGS+=(-DOPENSSL_ROOT_DIR="$OPENSSL_ROOT")
+        [[ -n "$BOOST_ROOT_DIR" ]] && CMAKE_ARGS+=(-DBOOST_ROOT="$BOOST_ROOT_DIR")
         [[ -n "$MYSQL_ROOT" ]] && CMAKE_ARGS+=(-DMYSQL_ADD_INCLUDE_PATH="$MYSQL_ROOT/include" -DMYSQL_LIBRARY="$MYSQL_ROOT/lib/libmysqlclient.dylib")
     fi
 fi

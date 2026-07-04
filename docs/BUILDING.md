@@ -47,7 +47,7 @@ cmake .. \
 
 ## Типичные проблемы
 
-* **Не найден Boost** — установите `libboost-all-dev` (Linux) или `brew install boost` (macOS).
+* **Не найден Boost** — установите `libboost-all-dev` (Linux) или `brew install boost@1.85` (macOS).
 * **Не найден OpenSSL на macOS** — укажите `OPENSSL_ROOT_DIR` (см. выше).
 * **Не найден MySQL client** — установите `libmysqlclient-dev` (Linux) или `brew install mysql-client` (macOS).
 * **Мало памяти при сборке** — уменьшите число потоков: `JOBS=1 ./scripts/build.sh`.

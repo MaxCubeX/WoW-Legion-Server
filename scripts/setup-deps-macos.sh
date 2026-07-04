@@ -8,9 +8,11 @@ if ! command -v brew >/dev/null 2>&1; then
 fi
 
 brew update
-brew install cmake boost openssl@3 mysql-client readline zlib bzip2 git
+# boost@1.85 is pinned: Boost >= 1.90 removed the boost_system CMake component that LegionCore requires
+brew install cmake boost@1.85 openssl@3 mysql-client readline zlib bzip2 git
 
 echo ""
 echo "Dependencies installed."
 echo "OpenSSL prefix: $(brew --prefix openssl@3)"
 echo "MySQL client prefix: $(brew --prefix mysql-client)"
+echo "Boost prefix: $(brew --prefix boost@1.85)"
