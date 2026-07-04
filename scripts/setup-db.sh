@@ -24,9 +24,11 @@ if [[ "$DB_PASS" == "legion" ]]; then
     echo "         Set DB_PASS to a strong password for production use." >&2
 fi
 
-# escape single quotes for safe interpolation into SQL string literals
-SQL_USER="${DB_USER//\'/\'\'}"
-SQL_PASS="${DB_PASS//\'/\'\'}"
+# escape backslashes and single quotes for safe interpolation into SQL string literals
+SQL_USER="${DB_USER//\\/\\\\}"
+SQL_USER="${SQL_USER//\'/\'\'}"
+SQL_PASS="${DB_PASS//\\/\\\\}"
+SQL_PASS="${SQL_PASS//\'/\'\'}"
 
 "${MYSQL_CMD[@]}" <<SQL
 CREATE DATABASE IF NOT EXISTS auth       DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
