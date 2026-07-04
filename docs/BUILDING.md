@@ -21,6 +21,21 @@ make install
 
 ### Особенности macOS
 
+**Apple Silicon (M1/M2/M3/M4):** ядро LegionCore и его встроенные зависимости
+(g3dlite, CascLib, SSE-интринсики) рассчитаны на x86_64 и не собираются нативно
+под ARM64. Собирайте через Rosetta 2 с x86_64 Homebrew:
+
+```bash
+softwareupdate --install-rosetta --agree-to-license
+# Установить x86_64 Homebrew (в /usr/local)
+arch -x86_64 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+# Установить зависимости и собрать под x86_64
+arch -x86_64 /usr/local/bin/brew install cmake boost@1.85 openssl@3 mysql-client readline zlib bzip2
+arch -x86_64 ./scripts/build.sh
+```
+
+На Intel Mac сборка работает нативно.
+
 Homebrew устанавливает OpenSSL и MySQL client вне стандартных путей поиска CMake:
 
 ```bash

@@ -24,7 +24,9 @@ jobs:
           path: install/bin
 
   build-macos:
-    runs-on: macos-14
+    # Intel runner: LegionCore's bundled deps (g3dlite, CascLib, SSE intrinsics) require x86_64.
+    # On Apple Silicon, build under Rosetta 2 with x86_64 Homebrew (see docs/BUILDING.md).
+    runs-on: macos-15-intel
     steps:
       - uses: actions/checkout@v4
       - name: Install dependencies
