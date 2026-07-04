@@ -1,0 +1,3 @@
+-- ExampleModule: world database changes go here.
+-- Example:
+-- DELETE FROM `creature_template` WHERE `entry` = 900000;

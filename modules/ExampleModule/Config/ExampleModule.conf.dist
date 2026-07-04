@@ -1,0 +1,8 @@
+###################################################################################################
+# ExampleModule configuration
+###################################################################################################
+
+# ExampleModule.Enable
+#     Enable or disable the module.
+#     Default: 1 (enabled)
+ExampleModule.Enable = 1
