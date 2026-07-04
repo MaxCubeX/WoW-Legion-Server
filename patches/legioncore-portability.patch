@@ -130,3 +130,24 @@ diff -ruN a/dep/g3dlite/source/System.cpp b/dep/g3dlite/source/System.cpp
      // AT&T assembler syntax
      asm volatile(
                   "movl $0, %%ecx   \n\n" /* Wipe ecx */
+diff -ruN a/src/common/Threading/LockedMap.h b/src/common/Threading/LockedMap.h
+--- a/src/common/Threading/LockedMap.h	2026-07-04 13:19:38.288754803 +0000
++++ b/src/common/Threading/LockedMap.h	2026-07-04 13:19:38.288754803 +0000
+@@ -202,7 +202,7 @@
+         {
+             WriteGuard Guard(GetLock());
+             WriteGuard GuardX(x.GetLock());
+-            m_storage.swap(x.storage);
++            m_storage.swap(x.m_storage);
+         }
+ 
+         void clear(void)
+@@ -455,7 +455,7 @@
+         {
+             WriteGuard Guard(GetLock());
+             WriteGuard GuardX(x.GetLock());
+-            m_storage.swap(x.storage);
++            m_storage.swap(x.m_storage);
+         }
+ 
+         void clear(void)
