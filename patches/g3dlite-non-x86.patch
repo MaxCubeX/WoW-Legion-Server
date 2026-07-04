@@ -76,6 +76,20 @@ diff -ruN a/dep/g3dlite/include/G3D/System.h b/dep/g3dlite/include/G3D/System.h
      }
  
  #elif defined(G3D_OSX)
+diff -ruN a/dep/g3dlite/source/FileSystem.cpp b/dep/g3dlite/source/FileSystem.cpp
+--- a/dep/g3dlite/source/FileSystem.cpp	2026-07-04 12:36:42.404631975 +0000
++++ b/dep/g3dlite/source/FileSystem.cpp	2026-07-04 12:36:49.304632304 +0000
+@@ -36,6 +36,10 @@
+ #   include <unistd.h>
+ #   define _getcwd getcwd
+ #   define _stat stat
++#   ifdef __APPLE__
++        // macOS: stat is always 64-bit; stat64 was removed on Apple Silicon
++#       define stat64 stat
++#   endif
+ #   define stricmp strcasecmp 
+ #   define strnicmp strncasecmp 
+ #endif
 diff -ruN a/dep/g3dlite/source/System.cpp b/dep/g3dlite/source/System.cpp
 --- a/dep/g3dlite/source/System.cpp	2026-07-04 12:32:59.948621367 +0000
 +++ b/dep/g3dlite/source/System.cpp	2026-07-04 12:33:09.736621834 +0000
