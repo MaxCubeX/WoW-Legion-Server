@@ -54,7 +54,13 @@ if [[ "$OS" == "Darwin" ]]; then
         BOOST_ROOT_DIR="$(brew --prefix boost@1.85 2>/dev/null || true)"
         [[ -n "$OPENSSL_ROOT" ]] && CMAKE_ARGS+=(-DOPENSSL_ROOT_DIR="$OPENSSL_ROOT")
         [[ -n "$BOOST_ROOT_DIR" ]] && CMAKE_ARGS+=(-DBOOST_ROOT="$BOOST_ROOT_DIR")
-        [[ -n "$MYSQL_ROOT" ]] && CMAKE_ARGS+=(-DMYSQL_ADD_INCLUDE_PATH="$MYSQL_ROOT/include" -DMYSQL_LIBRARY="$MYSQL_ROOT/lib/libmysqlclient.dylib")
+        if [[ -n "$MYSQL_ROOT" ]]; then
+            # mysql-client is keg-only; expose mysql_config so FindMySQL.cmake can derive paths
+            export PATH="$MYSQL_ROOT/bin:$PATH"
+            MYSQL_INCLUDE="$MYSQL_ROOT/include/mysql"
+            [[ -d "$MYSQL_INCLUDE" ]] || MYSQL_INCLUDE="$MYSQL_ROOT/include"
+            CMAKE_ARGS+=(-DMYSQL_INCLUDE_DIR="$MYSQL_INCLUDE" -DMYSQL_LIBRARY="$MYSQL_ROOT/lib/libmysqlclient.dylib")
+        fi
     fi
 fi
 
