@@ -38,7 +38,19 @@ if [[ ! -d "$CORE_DIR" ]]; then
     git clone --depth 1 "$CORE_REPO" "$CORE_DIR"
 fi
 
-# 2. Configure
+# 2. Apply portability patches (needed for non-x86 targets, e.g. Apple Silicon)
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PATCH_FILE="$SCRIPT_DIR/../patches/g3dlite-non-x86.patch"
+if [[ -f "$PATCH_FILE" ]]; then
+    if patch -p1 -d "$CORE_DIR" --dry-run -N -s < "$PATCH_FILE" >/dev/null 2>&1; then
+        echo "==> Applying g3dlite non-x86 portability patch"
+        patch -p1 -d "$CORE_DIR" -N -s < "$PATCH_FILE"
+    else
+        echo "==> g3dlite portability patch already applied (or not applicable), skipping"
+    fi
+fi
+
+# 3. Configure
 CMAKE_ARGS=(
     -DCMAKE_BUILD_TYPE="$BUILD_TYPE"
     -DCMAKE_INSTALL_PREFIX="$INSTALL_DIR"
@@ -69,7 +81,7 @@ mkdir -p "$BUILD_DIR"
 cd "$BUILD_DIR"
 cmake .. "${CMAKE_ARGS[@]}"
 
-# 3. Build and install
+# 4. Build and install
 make -j"$JOBS"
 make install
 
